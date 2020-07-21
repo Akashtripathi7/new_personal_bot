@@ -11,19 +11,18 @@ class Bot:
     def ask_auth_mode(self):
         user_choice = input('Do you want login or reister?\n 1 == login , 0 == register')
         if int(user_choice) == 1:
-            self.user_input()
-            if auth.check_for_password_lenght(self.password):
-                self.log_in_user()
-            else:
-                print('Your password should be greater than 7')
+           value = self.check_password()
+           if value:
+               self.log_in_user()
+
+
         elif int(user_choice) == 0:
-            self.user_input()
-            if auth.check_for_password_lenght(self.password):
+            value = self.check_password()
+            if value:
                 self.register_user()
-            else:
-                print('Your password should be greater than 7')
         else:
-            print('plzz choose a valid input')
+                print('plzz choose a valid input')
+                self.ask_auth_mode()
 
 
 
@@ -40,6 +39,16 @@ class Bot:
     # method created  for login user
     def log_in_user(self):
         auth.log_user_account(self.email, self.password)
+
+    #method created for checking password
+    def check_password(self):
+         self.user_input()
+         if auth.check_for_password_lenght(self.password):
+                return True
+
+         else:
+             print('Your password should be greater than 7')
+             self.check_password()
 
 #instance of class created
 bot = Bot()
